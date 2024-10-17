@@ -1,7 +1,7 @@
 const users = require("../models/userSchema");
 const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
-  console.log("inside register function");
+  // console.log("inside register function");
   const { username, email, password } = req.body;
   try {
     const existingUser = await users.findOne({ email });
