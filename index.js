@@ -2,12 +2,14 @@ require("dotenv").config(); //Loads .env file contents into process.env by defau
 const express = require("express");
 const cors = require("cors");
 const router = require("./Router/router");
+ 
 const pfServer = express();
 require('./DB/connection')
 
 pfServer.use(cors());
 pfServer.use(express.json())
 pfServer.use(router);
+pfServer.use("/uploads",express.static("./uploads"))
 
 
 const PORT = 3000;
