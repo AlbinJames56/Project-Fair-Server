@@ -55,8 +55,15 @@ exports.getUserProjects = async (req, res) => {
 
 // getAllProjects
 exports.getAllProjects = async (req, res) => {
+  const searchKey=req.query.search
+  console.log(searchKey);
+  
+
+  const query={
+    languages:{$regex:searchKey,$options:"i"}
+  }
   try {
-    const allProjects = await projects.find();
+    const allProjects = await projects.find(query);
     res.status(200).json(allProjects);
   } catch (err) {
     res.status(401).json(err);
@@ -66,15 +73,13 @@ exports.getAllProjects = async (req, res) => {
 // edit project
 exports.editUserProject = async (req, res) => {
   const { title, languages, github, website, overview, projectImg } = req.body;
-  const uploadImage = req.file?.filename ? req.file.filename : projectImg; 
-  
+  const uploadImage = req.file?.filename ? req.file.filename : projectImg;
+
   const userId = req.payload;
   const { pid } = req.params;
-  console.log("pid",req.params);
-  
+  console.log("pid", req.params);
 
-  try { 
-    
+  try {
     const updateProject = await projects.findByIdAndUpdate(
       { _id: pid },
       {
@@ -91,6 +96,16 @@ exports.editUserProject = async (req, res) => {
 
     await updateProject.save();
     res.status(200).json(updateProject);
+  } catch (err) {
+    res.status(401).json(err);
+  }
+};
+// delete project
+exports.deleteProject = async (req, res) => {
+  const { pid } = req.params;
+  try {
+    const deleteData = await projects.findByIdAndDelete({ _id: pid });
+    res.status(200).json(deleteData);
   } catch (err) {
     res.status(401).json(err);
   }
