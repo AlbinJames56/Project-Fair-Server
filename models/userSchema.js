@@ -12,7 +12,7 @@ const userSchema=new mongoose.Schema({
         type:String,
         require:true
     },
-    profile:{
+    profileImg:{
         type:String
     },
     github:{
