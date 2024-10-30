@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
 
 //update profile controller
 exports.updateProfile = async (req,res) => {
-  const { profileImg, github, linkedin } = req.body;
+  const { profileImg, github, linkedin } = req.body; 
   const uploadImg = req.file ? req.file.filename : profileImg;
   try {
     const currentProfile = await users.findById({ _id: req.payload });
@@ -57,7 +57,7 @@ exports.updateProfile = async (req,res) => {
 
     const profile = await users.findByIdAndUpdate(
       { _id: req.payload },
-      { username, email, password, profile: uploadImg, github, linkedin },
+      { username, email, password, profileImg: uploadImg, github, linkedin },
       { new: true }
     );
     res.status(200).json(profile);
